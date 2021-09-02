@@ -32,7 +32,7 @@ const showSearchResults = (resultnum, results) => {
     resultNumber.classList.add('text-center')
     resultNumber.innerHTML = `
                 <p class="display-6"><strong>${resultnum}</strong> results found for <strong>${searchText.value}.</strong></p>
-                <p><small><strong>${results.length}</strong> Results were fetched but only showing books with cover images below</small></p>`;
+                <p><small><strong>${results.length}</strong> Results were fetched and displayed.</small></p>`;
     searchNumbers.textContent = '';
     searchText.value = '';
     searchNumbers.appendChild(resultNumber);
@@ -41,10 +41,9 @@ const showSearchResults = (resultnum, results) => {
     newBookSection.classList.add('row', 'row-cols-1', 'row-cols-md-3', 'g-4');
     searchResults.appendChild(newBookSection);
     results.forEach(book => {
-        if (book.cover_i) {
-            const newBook = document.createElement("div");
-            newBook.classList.add("col");
-            newBook.innerHTML = `
+        const newBook = document.createElement("div");
+        newBook.classList.add("col");
+        newBook.innerHTML = `
                         <div class="card h-100 bg-light">
                             <img class="h-100" src="https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg" class="img-thumbnail card-img-top" alt="">
                             <div class="card-body">
@@ -54,8 +53,7 @@ const showSearchResults = (resultnum, results) => {
                             </div>
                         </div>
                     </div>`;
-            newBookSection.appendChild(newBook);
-        }
+        newBookSection.appendChild(newBook);
     });
 };
 
