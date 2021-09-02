@@ -15,7 +15,7 @@ const loadResults = async () => {
     const response = await fetch(fetchAPI);
     const results = await response.json();
     searchResults.textContent = '';
-    if (results.numFound == 0) {
+    if (results.numFound === 0) {
         showNoInput();
     }
     else {
@@ -74,7 +74,7 @@ const showNoInput = () => {
 Event Handler
 ------------*/
 searchButton.onclick = () => {
-    if (searchText.value == '') {
+    if (searchText.value === '') {
         showNoResults();
     }
     else {
