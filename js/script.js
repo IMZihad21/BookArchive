@@ -14,11 +14,19 @@ const loadResults = async () => {
     // Notify about result fetching
     searchResults.textContent = '';
     searchInfo.textContent = '';
-    searchInfo.innerHTML = `<p class="text-center"><small>Please wait while loading search results..</small></p>`;
+    searchInfo.innerHTML = `
+                    <p><small>Please wait while loading search results..</small></p>
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>`;
+
+    // Call API to get search results
     const fetchAPI = `https://openlibrary.org/search.json?q=${searchText.value}`;
     const response = await fetch(fetchAPI);
     const results = await response.json();
-    if (searchText.value === '') {
+
+    // Notify if there's issue in input
+    if (results.q === "") {
         showNoResults();
     }
     else if (results.numFound === 0) {
@@ -36,6 +44,7 @@ const showSearchResults = (resultnum, searchtext, results) => {
                 <p class="display-6"><strong>${resultnum}</strong> books found for <strong>${searchtext}.</strong></p>
                 <p><small><strong>${results.length}</strong> books were fetched and displayed.</small></p>
             </div>`;
+
     // Handles Results display
     const newBookSection = document.createElement("div");
     newBookSection.classList.add('row', 'row-cols-1', 'row-cols-md-3', 'g-4');
