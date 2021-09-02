@@ -15,22 +15,28 @@ const loadResults = async () => {
     const response = await fetch(fetchAPI);
     const results = await response.json();
     searchResults.textContent = '';
-    if (results.numFound === 0) {
+    if (searchText.value === '') {
+        showNoResults();
+    }
+    else if (results.numFound === 0) {
         showNoInput();
     }
     else {
-        const resultNumber = document.createElement("div");
-        resultNumber.classList.add('text-center')
-        resultNumber.innerHTML = `
-                <p class="display-6"><strong>${results.numFound}</strong> results found for <strong>${searchText.value}</strong></p>
-                <p><small>* Showing books with cover images below</small></p>`;
-        searchNumbers.textContent = '';
-        searchNumbers.appendChild(resultNumber);
-        showSearchResults(results.docs);
+        showSearchResults(results.numFound, results.docs);
     }
 }
 
-const showSearchResults = (results) => {
+const showSearchResults = (resultnum, results) => {
+    // Handles Result number display
+    const resultNumber = document.createElement("div");
+    resultNumber.classList.add('text-center')
+    resultNumber.innerHTML = `
+                <p class="display-6"><strong>${resultnum}</strong> results found for <strong>${searchText.value}</strong></p>
+                <p><small>* Showing books with cover images below</small></p>`;
+    searchNumbers.textContent = '';
+    searchText.value = '';
+    searchNumbers.appendChild(resultNumber);
+    // Handles Results display
     const newBookSection = document.createElement("div");
     newBookSection.classList.add('row', 'row-cols-1', 'row-cols-md-3', 'g-4');
     searchResults.appendChild(newBookSection);
@@ -57,7 +63,7 @@ const showNoResults = () => {
     searchNumbers.textContent = '';
     searchResults.innerHTML = `
         <div class="text-center">
-            <h1 class="display-5">Enter the book Name you want to Search</h1>
+            <h1 class="display-5">You must enter some keywords to find books</h1>
         </div>`;
 }
 
@@ -67,17 +73,11 @@ const showNoInput = () => {
         <div class="text-center">
             <h1 class="display-5">No Book found with ${searchText.value} keyword</h1>
         </div>`;
+    searchText.value = '';
 }
 
 
 /*-----------
 Event Handler
 ------------*/
-searchButton.onclick = () => {
-    if (searchText.value === '') {
-        showNoResults();
-    }
-    else {
-        loadResults();
-    }
-}
+searchButton.onclick = loadResults;
