@@ -19,9 +19,11 @@ const loadResults = async () => {
         showNoInput();
     }
     else {
-        const resultNumber = document.createElement("p");
-        resultNumber.classList.add('text-center', 'display-6')
-        resultNumber.textContent = `${results.numFound} results found for ${searchText.value}`;
+        const resultNumber = document.createElement("div");
+        resultNumber.classList.add('text-center')
+        resultNumber.innerHTML = `
+                <p class="display-6"><strong>${results.numFound}</strong> results found for <strong>${searchText.value}</strong></p>
+                <p><small>* Showing books with cover images below</small></p>`;
         searchNumbers.textContent = '';
         searchNumbers.appendChild(resultNumber);
         showSearchResults(results.docs);
