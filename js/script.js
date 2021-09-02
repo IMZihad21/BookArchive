@@ -49,6 +49,8 @@ const showSearchResults = (resultnum, searchtext, results) => {
     const newBookSection = document.createElement("div");
     newBookSection.classList.add('row', 'row-cols-1', 'row-cols-md-3', 'g-4');
     searchResults.appendChild(newBookSection);
+    
+    // Loop through fetched array
     results.forEach(book => {
         const newBook = document.createElement("div");
         newBook.classList.add("col");
@@ -57,8 +59,8 @@ const showSearchResults = (resultnum, searchtext, results) => {
                             <img class="h-100" src="https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg" class="img-thumbnail card-img-top" alt="">
                             <div class="card-body">
                                 <h5 class="card-title">${book.title}</h5>
-                                <p class="card-text">Authored by <span class="fw-bolder">${book.author_name}</span></p>
-                                <p class="card-text">First published on ${book.first_publish_year} </p>
+                                <p class="card-text">Authored by <span class="fw-bolder">${book.author_name ? book.author_name : "Unknown" }</span></p>
+                                <p class="card-text">First published on ${book.first_publish_year ? book.first_publish_year : "Unknown"} </p>
                             </div>
                         </div>
                     </div>`;
