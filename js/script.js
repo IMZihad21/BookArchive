@@ -21,50 +21,51 @@ const loadResults = async () => {
     else {
         const resultNumber = document.createElement("p");
         resultNumber.classList.add('text-center', 'display-6')
-        resultNumber.textContent= `${results.numFound} results found for ${searchText.value}`;
-        searchNumbers.textContent= '';
+        resultNumber.textContent = `${results.numFound} results found for ${searchText.value}`;
+        searchNumbers.textContent = '';
         searchNumbers.appendChild(resultNumber);
         showSearchResults(results.docs);
     }
 }
 
 const showSearchResults = (results) => {
-    console.log(results);
     const newBookSection = document.createElement("div");
     newBookSection.classList.add('row', 'row-cols-1', 'row-cols-md-3', 'g-4');
     searchResults.appendChild(newBookSection);
     results.forEach(book => {
-        const newBook = document.createElement("div");
-        newBook.classList.add("col");
-        newBook.innerHTML = `
-                    <div class="card h-100 bg-light">
-                        <img class="h-100" src="https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg" class="img-thumbnail card-img-top" alt="">
-                        <div class="card-body">
-                            <h5 class="card-title">${book.title}</h5>
-                            <p class="card-text">Authored by <span class="fw-bolder">${book.author_name}</span></p>
-                            <p class="card-text">First published on ${book.first_publish_year} </p>
+        if (book.cover_i) {
+            const newBook = document.createElement("div");
+            newBook.classList.add("col");
+            newBook.innerHTML = `
+                        <div class="card h-100 bg-light">
+                            <img class="h-100" src="https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg" class="img-thumbnail card-img-top" alt="">
+                            <div class="card-body">
+                                <h5 class="card-title">${book.title}</h5>
+                                <p class="card-text">Authored by <span class="fw-bolder">${book.author_name}</span></p>
+                                <p class="card-text">First published on ${book.first_publish_year} </p>
+                            </div>
                         </div>
-                    </div>
-                </div>`;
-        newBookSection.appendChild(newBook);
+                    </div>`;
+            newBookSection.appendChild(newBook);
+        }
     });
 };
 
 const showNoResults = () => {
-    searchNumbers.textContent= '';
+    searchNumbers.textContent = '';
     searchResults.innerHTML = `
         <div class="text-center">
             <h1 class="display-5">Enter the book Name you want to Search</h1>
         </div>`;
-    }
+}
 
 const showNoInput = () => {
-    searchNumbers.textContent= '';
+    searchNumbers.textContent = '';
     searchResults.innerHTML = `
         <div class="text-center">
             <h1 class="display-5">No Book found with ${searchText.value} keyword</h1>
         </div>`;
-    }
+}
 
 
 /*-----------
