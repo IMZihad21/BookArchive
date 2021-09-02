@@ -22,6 +22,7 @@ const loadResults = async () => {
         const resultNumber = document.createElement("p");
         resultNumber.classList.add('text-center', 'display-6')
         resultNumber.textContent= `${results.numFound} results found for ${searchText.value}`;
+        searchNumbers.textContent= '';
         searchNumbers.appendChild(resultNumber);
         showSearchResults(results.docs);
     }
@@ -58,7 +59,7 @@ const showNoResults = () => {
     }
 
 const showNoInput = () => {
-    searchNumbers.textContent= '';    
+    searchNumbers.textContent= '';
     searchResults.innerHTML = `
         <div class="text-center">
             <h1 class="display-5">No Book found with ${searchText.value} keyword</h1>
