@@ -4,17 +4,20 @@ Declare global variables
 const searchText = document.getElementById('search-text');
 const searchButton = document.getElementById('search-button');
 const searchResults = document.getElementById('search-results');
-const searchNumbers = document.getElementById('search-numbers');
+const searchInfo = document.getElementById('search-info');
 
 
 /*--------
 Functions
 ---------*/
 const loadResults = async () => {
+    // Notify about result fetching
+    searchResults.textContent = '';
+    searchInfo.textContent = '';
+    searchInfo.innerHTML = `<p class="text-center"><small>Please wait while loading search results..</small></p>`;
     const fetchAPI = `https://openlibrary.org/search.json?q=${searchText.value}`;
     const response = await fetch(fetchAPI);
     const results = await response.json();
-    searchResults.textContent = '';
     if (searchText.value === '') {
         showNoResults();
     }
@@ -22,20 +25,17 @@ const loadResults = async () => {
         showNoInput();
     }
     else {
-        showSearchResults(results.numFound, results.docs);
+        showSearchResults(results.numFound, results.q, results.docs);
     }
 }
 
-const showSearchResults = (resultnum, results) => {
+const showSearchResults = (resultnum, searchtext, results) => {
     // Handles Result number display
-    const resultNumber = document.createElement("div");
-    resultNumber.classList.add('text-center')
-    resultNumber.innerHTML = `
-                <p class="display-6"><strong>${resultnum}</strong> results found for <strong>${searchText.value}.</strong></p>
-                <p><small><strong>${results.length}</strong> Results were fetched and displayed.</small></p>`;
-    searchNumbers.textContent = '';
-    searchText.value = '';
-    searchNumbers.appendChild(resultNumber);
+    searchInfo.innerHTML = `
+            <div class="text-center">
+                <p class="display-6"><strong>${resultnum}</strong> books found for <strong>${searchtext}.</strong></p>
+                <p><small><strong>${results.length}</strong> books were fetched and displayed.</small></p>
+            </div>`;
     // Handles Results display
     const newBookSection = document.createElement("div");
     newBookSection.classList.add('row', 'row-cols-1', 'row-cols-md-3', 'g-4');
@@ -54,20 +54,19 @@ const showSearchResults = (resultnum, results) => {
                         </div>
                     </div>`;
         newBookSection.appendChild(newBook);
+        searchText.value = '';
     });
 };
 
 const showNoResults = () => {
-    searchNumbers.textContent = '';
-    searchResults.innerHTML = `
+    searchInfo.innerHTML = `
         <div class="text-center">
             <h1 class="display-5">You must enter some keywords to find books</h1>
         </div>`;
 }
 
 const showNoInput = () => {
-    searchNumbers.textContent = '';
-    searchResults.innerHTML = `
+    searchInfo.innerHTML = `
         <div class="text-center">
             <h1 class="display-5">No Book found with ${searchText.value} keyword</h1>
         </div>`;
