@@ -31,8 +31,8 @@ const showSearchResults = (resultnum, results) => {
     const resultNumber = document.createElement("div");
     resultNumber.classList.add('text-center')
     resultNumber.innerHTML = `
-                <p class="display-6"><strong>${resultnum}</strong> results found for <strong>${searchText.value}</strong></p>
-                <p><small>* Showing books with cover images below</small></p>`;
+                <p class="display-6"><strong>${resultnum}</strong> results found for <strong>${searchText.value}.</strong></p>
+                <p><small><strong>${results.length}</strong> Results were fetched but only showing books with cover images below</small></p>`;
     searchNumbers.textContent = '';
     searchText.value = '';
     searchNumbers.appendChild(resultNumber);
