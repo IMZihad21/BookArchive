@@ -1,0 +1,35 @@
+name: Create a production build to gh-sources
+on:
+  push:
+    branches: [main]
+env:
+  TZ: Asia/Dhaka
+
+jobs:
+  BuildandPush:
+    concurrency: gh-${{ github.ref }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v3
+
+      - name: Adapt for GitHub Pages
+        run: |
+          git config --global user.name 'ZèD' 
+          git config --global user.email 'imzihad@gmail.com' 
+          git fetch
+          ghPagesChanges=$(git log origin/gh-sources -n 1 --pretty=format:"%H")
+          git cherry-pick -s $ghPagesChanges
+          git branch -m main gh-sources
+          git push origin gh-sources -f
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        with:
+          branch: gh-pages
+          folder: ./
+          git-config-name: ZèD
+          git-config-email: imzihad@gmail.com
+          commit-message: "Deployed production build 🚀"
+          single-commit: true
+          silent: true
